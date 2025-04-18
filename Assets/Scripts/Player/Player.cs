@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
 
         if(inputX !=0 && inputY != 0)
         {
-            inputX = inputX * 0.6f;
+            inputX = inputX * 1.2f;
             inputX = inputX * 0.6f;
         }
         movementInput = new Vector2(inputX, inputY);
