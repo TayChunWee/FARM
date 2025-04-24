@@ -123,7 +123,7 @@ public class ItemEditor : EditorWindow
         itemListView.makeItem = makeItem;
         itemListView.bindItem = bindItem;
 
-        itemListView.onSelectionChange += OnListSelectionChange;
+        itemListView.selectionChanged += OnListSelectionChange;
 
         //右側信息面板不可見
         itemDetailsSection.visible = false;

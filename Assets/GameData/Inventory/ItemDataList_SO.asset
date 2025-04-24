@@ -20,7 +20,7 @@ MonoBehaviour:
     itemOnWorldSprite: {fileID: 0}
     itemDescription: "\u4E00\u628A\u780D\u6811\u7528\u7684\u65A7\u5934"
     itemUseRadius: 1
-    canPickedup: 0
+    canPickedup: 1
     canDropped: 0
     canCarried: 0
     itemPrice: 0
