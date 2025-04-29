@@ -7,6 +7,12 @@ namespace Farm.Inventory
 {
     public class InventoryUI : MonoBehaviour
     {
+        [Header("玩家背包UI")]
+
+        [SerializeField] private GameObject bagUI;
+
+        private bool bagOpened;
+        
         [SerializeField] private SLOTUI[] playerSlots;
 
         private void OnEnable()
@@ -27,7 +33,17 @@ namespace Farm.Inventory
             {
                 playerSlots[i].slotIndex = i;
             }
+            bagOpened = bagUI.activeInHierarchy;
         }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                OpenBagUI();
+            }
+        }
+
         private void OnUpdateInventoryUI(InventoryLocation location, List<InventoryItem> list)
         {
             switch (location)
@@ -47,6 +63,36 @@ namespace Farm.Inventory
                     }
                     break;
             
+            }
+        }
+
+        /// <summary>
+        /// 打开关闭背包UI，Button调用事件
+        /// </summary>
+        public void OpenBagUI()
+        {
+            bagOpened = !bagOpened;
+
+            bagUI.SetActive(bagOpened);
+        }
+
+        /// <summary>
+        /// 更新Slot高亮显示
+        /// </summary>
+        /// <param name="index">序号</param>
+        public void UpdateSlotHighlight(int index)
+        {
+            foreach(var slot in playerSlots)
+            {
+                if(slot.isSelected && slot.slotIndex == index)
+                {
+                    slot.slotHighlight.gameObject.SetActive(true);
+                }
+                else
+                {
+                    slot.isSelected = false;
+                    slot.slotHighlight.gameObject.SetActive(false);
+                }
             }
         }
     }

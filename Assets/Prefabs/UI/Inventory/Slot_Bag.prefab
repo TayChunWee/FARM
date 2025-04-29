@@ -217,6 +217,7 @@ MonoBehaviour:
   button: {fileID: 5866226664252728799}
   slotType: 0
   isSelected: 0
+  slotIndex: 0
   itemDetails:
     itemID: 0
     itemName: 
@@ -376,6 +377,7 @@ GameObject:
   - component: {fileID: 7127392877272018128}
   - component: {fileID: 5917215362378209107}
   - component: {fileID: 6412613992980614544}
+  - component: {fileID: 1679453291416526894}
   m_Layer: 5
   m_Name: Highlight
   m_TagString: Untagged
@@ -440,3 +442,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &1679453291416526894
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2740599612353227271}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7a12af15d5bd5cc409f067cc3931e7a3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
