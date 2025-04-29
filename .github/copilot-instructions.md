@@ -2,7 +2,7 @@
 - Project name: FARM
 - Unity version: Unity 2022.3.47f1
 - Active game object:
-  - Name: ItemBase (1)
+  - Name: Action Bar
   - Tag: Untagged
-  - Layer: Default
+  - Layer: UI
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
