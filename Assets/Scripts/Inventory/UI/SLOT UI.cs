@@ -122,17 +122,17 @@ namespace Farm.Inventory
 
                 inventoryUI.UpdateSlotHighlight(-1);
             }
-            else  //测试扔在地上
-            {
-                if (itemDetails.canDropped)
-                {
-                    //鼠标对应世界地图坐标
-                    var pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-
-                    EventHandler.CallInstantiateItemInScene(itemDetails.itemID, pos);
-                }
-                
-            }
+            //else  //测试扔在地上
+            //{
+            //    if (itemDetails.canDropped)
+            //    {
+            //        //鼠标对应世界地图坐标
+            //        var pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+            //
+            //        EventHandler.CallInstantiateItemInScene(itemDetails.itemID, pos);
+            //    }
+            //    
+            //}
         }
     }
 }

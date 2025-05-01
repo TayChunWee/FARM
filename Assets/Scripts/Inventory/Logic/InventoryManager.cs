@@ -51,6 +51,10 @@ namespace Farm.Inventory
             EventHandler.CallUpdateInventoryUI(InventoryLocation.Player, playerBag.itemList);
         }
 
+        /// <summary>
+        /// 檢查背包是否有空位
+        /// </summary>
+        /// <returns></returns>
         private bool CheckBagCapacity()
         {
             for(int i = 0; i < playerBag.itemList.Count; i++)
