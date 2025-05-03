@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ef065fb65f97e43f8b673d7718f87178, type: 3}
+  m_Sprite: {fileID: 724091328, guid: c80bd1c419bb64e91940022957a68245, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 82160387575568470}
   - component: {fileID: 5866226664252728799}
   - component: {fileID: 297237022330044059}
+  - component: {fileID: 6391638614757537456}
   m_Layer: 5
   m_Name: Slot_Bag
   m_TagString: Untagged
@@ -232,6 +233,18 @@ MonoBehaviour:
     itemPrice: 0
     sellPercentage: 0
   itemAmount: 0
+--- !u!114 &6391638614757537456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2453712883204691289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bada5cba7fb792b4aaf3f52ac868b65f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2557216649418049531
 GameObject:
   m_ObjectHideFlags: 0
