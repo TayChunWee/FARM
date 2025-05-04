@@ -71,6 +71,11 @@ namespace Farm.Inventory
             slotImage.enabled = false;
             amountText.text = string.Empty;
             button.interactable = false;
+
+            //自行修復（無根據視頻可能之後需要更改），原因是因爲他的itemAmount沒有等於0，并且沒有清除乾净數據
+            itemAmount = 0;
+            itemDetails = new ItemDetails();
+
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -79,6 +84,12 @@ namespace Farm.Inventory
             isSelected = !isSelected;
 
             inventoryUI.UpdateSlotHighlight(slotIndex);
+
+            if(slotType == SlotType.Bag)
+            {
+                //通知物品被選中的狀態
+                EventHandler.CallItemSelectedEvent(itemDetails,isSelected);
+            }
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -102,7 +113,7 @@ namespace Farm.Inventory
         public void OnEndDrag(PointerEventData eventData)
         {
             inventoryUI.dragItem.enabled = false;
-            //Debug.Log(eventData.pointerCurrentRaycast.gameObject);
+            Debug.Log(eventData.pointerCurrentRaycast.gameObject);
 
             if (eventData.pointerCurrentRaycast.gameObject != null)
             {

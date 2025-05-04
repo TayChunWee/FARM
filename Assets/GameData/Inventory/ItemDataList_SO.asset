@@ -77,7 +77,7 @@ MonoBehaviour:
     itemName: "\u571F\u8C46"
     itemType: 1
     itemIcon: {fileID: 21300000, guid: 59a2ce6cc735e4cd3a3da1bad8629303, type: 3}
-    itemOnWorldSprite: {fileID: 0}
+    itemOnWorldSprite: {fileID: 21300000, guid: 59a2ce6cc735e4cd3a3da1bad8629303, type: 3}
     itemDescription: "\u65B0\u9BAE\u7684\u571F\u8C46"
     itemUseRadius: 0
     canPickedup: 1

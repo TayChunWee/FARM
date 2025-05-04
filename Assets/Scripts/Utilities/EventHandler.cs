@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,5 +17,11 @@ public static class EventHandler
     public static void CallInstantiateItemInScene(int ID, Vector3 pos)
     {
         InstantiateItemInScene?.Invoke(ID, pos);
+    }
+
+    public static event Action<ItemDetails, bool> ItemSelectEvent;
+    public static void CallItemSelectedEvent(ItemDetails itemDetails, bool isSelected)
+    {
+        ItemSelectEvent?.Invoke(itemDetails, isSelected);
     }
 }
