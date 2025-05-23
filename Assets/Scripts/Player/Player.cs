@@ -38,10 +38,11 @@ public class Player : MonoBehaviour
 
     private void PlayerInput()
     {
-        //if(inputY == 0)
-        inputX = Input.GetAxisRaw("Horizontal");
-        //if(inputX == 0)
-        inputY = Input.GetAxisRaw("Vertical");
+        if(inputY == 0)
+            inputX = Input.GetAxisRaw("Horizontal");
+
+        if(inputX == 0)
+            inputY = Input.GetAxisRaw("Vertical");
 
         if(inputX !=0 && inputY != 0)
         {
