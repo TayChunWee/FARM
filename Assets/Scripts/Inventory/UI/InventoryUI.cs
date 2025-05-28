@@ -24,11 +24,13 @@ namespace Farm.Inventory
         private void OnEnable()
         {
             EventHandler.UpdateInventoryUI += OnUpdateInventoryUI;
+            EventHandler.BeforeSceneUnloadEvent += OnBeforeSceneUnloadedEvent;
         }
 
         private void OnDisable()
         {
             EventHandler.UpdateInventoryUI -= OnUpdateInventoryUI;
+            EventHandler.BeforeSceneUnloadEvent -= OnBeforeSceneUnloadedEvent;
         }
 
 
@@ -48,6 +50,10 @@ namespace Farm.Inventory
             {
                 OpenBagUI();
             }
+        }
+        private void OnBeforeSceneUnloadedEvent()
+        {
+            UpdateSlotHighlight(-1);
         }
 
         private void OnUpdateInventoryUI(InventoryLocation location, List<InventoryItem> list)

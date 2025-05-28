@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
 
     private bool isMoving;
 
+    private bool inputDisable;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -25,9 +27,43 @@ public class Player : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        EventHandler.BeforeSceneUnloadEvent += OnBeforeSceneUnloadedEvent;
+        EventHandler.AfterSceneLoadedEvent += OnAfterSceneLoadedEvent;
+        EventHandler.MoveToPosition += OnMoveToPosition;
+    }
+
+    private void OnDisable()
+    {
+        EventHandler.BeforeSceneUnloadEvent -= OnBeforeSceneUnloadedEvent;
+        EventHandler.AfterSceneLoadedEvent -= OnAfterSceneLoadedEvent;
+        EventHandler.MoveToPosition -= OnMoveToPosition;
+    }
+
+    private void OnMoveToPosition(Vector3 targetPosition)
+    {
+        transform.position = targetPosition;
+    }
+
+    private void OnAfterSceneLoadedEvent()
+    {
+        inputDisable = false;
+    }
+
+    private void OnBeforeSceneUnloadedEvent()
+    {
+        inputDisable = true;
+    }
+
+
     private void Update()
     {
-        PlayerInput();
+        if(inputDisable == false)
+        {
+            PlayerInput();      
+        }
+        
         SwitchAnimation();
     }
 
