@@ -48,15 +48,17 @@ namespace Farm.Transition
         {
             EventHandler.CallBeforeSceneUnloadEvent();
 
-            yield return Fade(1);
+            yield return Fade(1 ,Settings.fadeInOutDuration);// 快速淡入（黑屏）
 
+            yield return new WaitForSeconds(Settings.fadeHoldDuration);// 黑屏保持一段时间
+            // 场景卸载与加载
             yield return SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
 
             yield return LoadSceneSetActive(sceneName);
             //移动人物坐标
             EventHandler.CallMoveToPosition(targetPosition);
 
-            yield return Fade(0);
+            yield return Fade(0, Settings.fadeInOutDuration);// 快速淡出（亮屏）
 
             EventHandler.CallAfterSceneLoadedEvent();
         }
@@ -80,13 +82,13 @@ namespace Farm.Transition
         /// </summary>
         /// <param name="targetAlpha">1是黑，0是透明</param>
         /// <returns></returns>
-        private IEnumerator Fade(float targetAlpha)
+        private IEnumerator Fade(float targetAlpha, float duration)
         {
             isFade = true;
 
             fadeCanvasGroup.blocksRaycasts = true;
 
-            float speed = Mathf.Abs(fadeCanvasGroup.alpha - targetAlpha) / Settings.fadeDuration;
+            float speed = Mathf.Abs(fadeCanvasGroup.alpha - targetAlpha) / duration;
 
             while (!Mathf.Approximately(fadeCanvasGroup.alpha, targetAlpha))
             {
