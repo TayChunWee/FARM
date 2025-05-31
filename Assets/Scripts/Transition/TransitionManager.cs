@@ -30,6 +30,7 @@ namespace Farm.Transition
             StartCoroutine(LoadSceneSetActive(startSceneName));
             fadeCanvasGroup = FindObjectOfType<CanvasGroup>();
         }
+
         private void OnTransitionEvent(string sceneToGo, Vector3 positionToGo)
         {
             if (!isFade)
@@ -50,7 +51,7 @@ namespace Farm.Transition
 
             yield return Fade(1 ,Settings.fadeInOutDuration);// 快速淡入（黑屏）
 
-            yield return new WaitForSeconds(Settings.fadeHoldDuration);// 黑屏保持一段时间
+            //yield return new WaitForSeconds(Settings.fadeHoldDuration);// 黑屏保持一段时间
             // 场景卸载与加载
             yield return SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
 
@@ -58,9 +59,11 @@ namespace Farm.Transition
             //移动人物坐标
             EventHandler.CallMoveToPosition(targetPosition);
 
+            EventHandler.CallAfterSceneLoadedEvent();
+
             yield return Fade(0, Settings.fadeInOutDuration);// 快速淡出（亮屏）
 
-            EventHandler.CallAfterSceneLoadedEvent();
+
         }
 
         /// <summary>
@@ -70,11 +73,30 @@ namespace Farm.Transition
         /// <returns></returns>
         private IEnumerator LoadSceneSetActive(string sceneName)
         {
-            yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            //自己更改的讓他的scene載入完整后才觸發事件
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
+            // 等待場景加載完成
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+
+            // 取得新場景
             Scene newScene = SceneManager.GetSceneAt(SceneManager.sceneCount - 1);
 
+            // 設為活動場景
             SceneManager.SetActiveScene(newScene);
+
+            // 現在場景已激活，觸發事件
+            EventHandler.CallAfterSceneLoadedEvent();
+
+            //原本的
+            //yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            //
+            //Scene newScene = SceneManager.GetSceneAt(SceneManager.sceneCount - 1);
+            //
+            //SceneManager.SetActiveScene(newScene);
         }
 
         /// <summary>
