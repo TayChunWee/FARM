@@ -12,15 +12,33 @@ public class CursorManager : MonoBehaviour
     private Image currentImage;
 
     private RectTransform cursorCanvas;
+
+    //鼠标检测
+    private Camera mainCamera;
+
+    private Grid currentGrid;
+
+    private Vector3 mouseWorldPos;
+
+    private Vector3Int mouseGridPos;
+
+    private bool cursorEnable;
+
+
     private void OnEnable()
     {
         EventHandler.ItemSelectEvent += OnItemSelectedEvent;
+        EventHandler.BeforeSceneUnloadEvent += OnBeforeSceneUnloadedEvent;
+        EventHandler.AfterSceneLoadedEvent += OnAfterSceneLoadedEvent;
     }
 
     private void OnDisable()
     {
         EventHandler.ItemSelectEvent -= OnItemSelectedEvent;
+        EventHandler.BeforeSceneUnloadEvent -= OnBeforeSceneUnloadedEvent;
+        EventHandler.AfterSceneLoadedEvent -= OnAfterSceneLoadedEvent;
     }
+
 
     private void Start()
     {
@@ -29,6 +47,8 @@ public class CursorManager : MonoBehaviour
 
         currentSprite = normal;
         SetCursorImage(normal);
+
+        mainCamera = Camera.main;
     }
 
     private void Update()
@@ -37,9 +57,10 @@ public class CursorManager : MonoBehaviour
 
         currentImage.transform.position = Input.mousePosition;
 
-        if(!InteractWithUI())
+        if(!InteractWithUI() && cursorEnable)
         {
             SetCursorImage(currentSprite);
+            CheckCursorValid();
         }
         else
         {
@@ -47,6 +68,20 @@ public class CursorManager : MonoBehaviour
         }
 
     }
+
+    
+    private void OnBeforeSceneUnloadedEvent()
+    {
+        cursorEnable = false;
+    }
+
+    private void OnAfterSceneLoadedEvent()
+    {
+        currentGrid = FindObjectOfType<Grid>();
+        cursorEnable = true;
+    }
+    
+
     /// <summary>
     /// 設置鼠標圖片
     /// </summary>
@@ -71,11 +106,25 @@ public class CursorManager : MonoBehaviour
                 ItemType.Seed => seed,
                 ItemType.Commodity => item,
                 ItemType.CollectTool => tool,
+                ItemType.BreakTool => tool,
+                ItemType.HoeTool => tool,
+                ItemType.ChopTool => tool,
+                ItemType.ReapTool => tool,
+                ItemType.WaterTool => tool,
                 _ => normal
             };
         }
 
     }
+
+    private void CheckCursorValid()
+    {
+        mouseWorldPos = mainCamera.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x,Input.mousePosition.y,-mainCamera.transform.position.z));
+        mouseGridPos = currentGrid.WorldToCell(mouseWorldPos);
+
+        Debug.Log("WorldPos:" + mouseWorldPos + "  Gridpos:" + mouseGridPos);
+    }
+
 
     /// <summary>
     /// 是否于UI互動
