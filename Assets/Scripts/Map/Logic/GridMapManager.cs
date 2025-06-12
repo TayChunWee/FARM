@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Farm.Map
 {
-    public class GridMapManager : MonoBehaviour
+    public class GridMapManager : Singleton<GridMapManager>
     {
         [Header("地图信息")]
 
@@ -14,12 +15,31 @@ namespace Farm.Map
         private Dictionary<string, TileDetails> tileDetailsDict = new Dictionary<string, TileDetails>();
 
 
+        private Grid currentGrid;
+
+
+        private void OnEnable()
+        {
+            EventHandler.ExecuteActionAfterAnimation += OnExecuteActionAfterAnimation;
+            EventHandler.AfterSceneLoadedEvent += OnAfterSceneLoadedEvent;
+        }
+        private void OnDisable()
+        {
+            EventHandler.ExecuteActionAfterAnimation -= OnExecuteActionAfterAnimation;
+            EventHandler.AfterSceneLoadedEvent -= OnAfterSceneLoadedEvent;
+        }
+
         private void Start()
         {
             foreach (var mapData in mapDataList)
             {
                 InitTileDetailsDict(mapData);
             }
+        }
+
+        private void OnAfterSceneLoadedEvent()
+        {
+            currentGrid = FindObjectOfType<Grid>();
         }
 
         private void InitTileDetailsDict(MapData_SO mapData)
@@ -80,6 +100,39 @@ namespace Farm.Map
                 return tileDetailsDict[key];
             }
             return null;
+        }
+
+        /// <summary>
+        /// 根据鼠标网格坐标返回瓦片信息
+        /// </summary>
+        /// <param name="mouseGridPos">鼠标网格坐标</param>
+        /// <returns></returns>
+        public TileDetails GetTileDetailsOnMousePosition(Vector3Int mouseGridPos)
+        {
+            string key = mouseGridPos.x + "x" + mouseGridPos.y + "y" + SceneManager.GetActiveScene().name;
+            return GetTileDetails(key);
+        }
+
+        /// <summary>
+        /// 执行实际工具或物品功能
+        /// </summary>
+        /// <param name="mouseWorldPos">鼠标坐标</param>
+        /// <param name="itemDetails">物品信息</param>
+        private void OnExecuteActionAfterAnimation(Vector3 mouseWorldPos, ItemDetails itemDetails)
+        {
+            var mouseGridPos = currentGrid.WorldToCell(mouseWorldPos);
+            var currentTile = GetTileDetailsOnMousePosition(mouseGridPos);
+
+            if (currentTile != null)
+            {
+                //WORKFLOW:物品使用实际功能
+                switch (itemDetails.itemType)
+                {
+                    case ItemType.Commodity:
+                        EventHandler.CallDropItemEvent(itemDetails.itemID, mouseWorldPos);
+                        break;
+                }
+            }
         }
     }
 }

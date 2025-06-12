@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Farm.Map;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+
 public class CursorManager : MonoBehaviour
 {
     public Sprite normal, tool, seed, item;
 
     private Sprite currentSprite;//儲存當前鼠標
 
-    private Image currentImage;
+    private Image cursorImage;
 
     private RectTransform cursorCanvas;
 
@@ -23,6 +25,13 @@ public class CursorManager : MonoBehaviour
     private Vector3Int mouseGridPos;
 
     private bool cursorEnable;
+
+    private bool cursorPositionValid;
+
+
+    private ItemDetails currentItem;
+
+    private Transform PlayerTransform => FindObjectOfType<Player>().transform;
 
 
     private void OnEnable()
@@ -43,7 +52,7 @@ public class CursorManager : MonoBehaviour
     private void Start()
     {
         cursorCanvas = GameObject.FindGameObjectWithTag("CursorCanvas").GetComponent<RectTransform>();
-        currentImage = cursorCanvas.GetChild(0).GetComponent<Image>();
+        cursorImage = cursorCanvas.GetChild(0).GetComponent<Image>();
 
         currentSprite = normal;
         SetCursorImage(normal);
@@ -55,18 +64,28 @@ public class CursorManager : MonoBehaviour
     {
         if (cursorCanvas == null) return;
 
-        currentImage.transform.position = Input.mousePosition;
+        cursorImage.transform.position = Input.mousePosition;
 
         if(!InteractWithUI() && cursorEnable)
         {
             SetCursorImage(currentSprite);
             CheckCursorValid();
+            CheckPlayerInput();
         }
         else
         {
             SetCursorImage(normal);
         }
 
+    }
+
+    private void CheckPlayerInput()
+    {
+        if(Input.GetMouseButtonDown(0) && cursorPositionValid)
+        {
+            //执行方法
+            EventHandler.CallMouseClickedEvent(mouseWorldPos, currentItem);
+        }
     }
 
     
@@ -78,28 +97,49 @@ public class CursorManager : MonoBehaviour
     private void OnAfterSceneLoadedEvent()
     {
         currentGrid = FindObjectOfType<Grid>();
-        cursorEnable = true;
     }
-    
 
+    #region 设置鼠标样式
     /// <summary>
     /// 設置鼠標圖片
     /// </summary>
     /// <param name="sprite"></param>
     private void SetCursorImage(Sprite sprite)
     {
-        currentImage.sprite = sprite;
-        currentImage.color=new Color(1,1,1,1);
+        cursorImage.sprite = sprite;
+        cursorImage.color=new Color(1,1,1,1);
 
     }
+    /// <summary>
+    /// 设置鼠标可用
+    /// </summary>
+    private void SetCursorValid()
+    {
+        cursorPositionValid = true;
+        cursorImage.color = new Color(1, 1, 1, 1);
+    }
+    /// <summary>
+    /// 设置鼠标不可用
+    /// </summary>
+    private void SetCursorInvalid()
+    {
+        cursorPositionValid = false;
+        cursorImage.color = new Color(1, 0, 0, 0.4f);
+    }
+    #endregion
+
     private void OnItemSelectedEvent(ItemDetails itemDetails, bool isSelected)
     {
+
         if (!isSelected)
         {
+            currentItem = null;
+            cursorEnable = false;
             currentSprite = normal;
         }
         else //物品被選中才切換圖片
         {
+            currentItem = itemDetails;
             //WORKFLOW: 添加所有類型對應圖片
             currentSprite = itemDetails.itemType switch
             {
@@ -113,16 +153,40 @@ public class CursorManager : MonoBehaviour
                 ItemType.WaterTool => tool,
                 _ => normal
             };
+            cursorEnable= true;
         }
 
     }
 
     private void CheckCursorValid()
     {
-        mouseWorldPos = mainCamera.ScreenToWorldPoint(new Vector3 (Input.mousePosition.x,Input.mousePosition.y,-mainCamera.transform.position.z));
+        mouseWorldPos = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -mainCamera.transform.position.z));
         mouseGridPos = currentGrid.WorldToCell(mouseWorldPos);
 
-        Debug.Log("WorldPos:" + mouseWorldPos + "  Gridpos:" + mouseGridPos);
+        var playerGridPos = currentGrid.WorldToCell(PlayerTransform.position);
+
+        //判断在使用范围内
+        if(Mathf.Abs(mouseGridPos.x - playerGridPos.x) > currentItem.itemUseRadius || Mathf.Abs(mouseGridPos.y - playerGridPos.y) > currentItem.itemUseRadius)
+        {
+            SetCursorInvalid();
+            return;
+        }
+
+        TileDetails currentTile = GridMapManager.Instance.GetTileDetailsOnMousePosition(mouseGridPos);
+
+        if (currentTile != null)
+        {
+            switch (currentItem.itemType)
+            {
+                case ItemType.Commodity:
+                    if (currentTile.canDropItem && currentItem.canDropped) SetCursorValid(); else SetCursorInvalid();
+                    break;
+            }
+        }
+        else
+        {
+            SetCursorInvalid();
+        }
     }
 
 

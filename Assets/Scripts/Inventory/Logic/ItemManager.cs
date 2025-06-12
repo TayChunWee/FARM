@@ -16,6 +16,7 @@ namespace Farm.Inventory
         private void OnEnable()
         {
             EventHandler.InstantiateItemInScene += OnInstantiateItemInScene;
+            EventHandler.DropItemEvent += OnDropItemEvent;
             EventHandler.BeforeSceneUnloadEvent += OnBeforeSceneLoadedEvent;
             EventHandler.AfterSceneLoadedEvent += OnAfterSceneLoadedEvent;
         }
@@ -24,10 +25,12 @@ namespace Farm.Inventory
         private void OnDisable()
         {
             EventHandler.InstantiateItemInScene -= OnInstantiateItemInScene;
+            EventHandler.DropItemEvent -= OnDropItemEvent;
             EventHandler.BeforeSceneUnloadEvent -= OnBeforeSceneLoadedEvent;
             EventHandler.AfterSceneLoadedEvent -= OnAfterSceneLoadedEvent;
         }
-        
+
+
         private void OnBeforeSceneLoadedEvent()
         {
             GetAllSceneItem();
@@ -49,6 +52,14 @@ namespace Farm.Inventory
             var item = Instantiate(itemPrefab, pos, Quaternion.identity, itemParent);
             item.itemID = ID;
         }
+
+        private void OnDropItemEvent(int ID, Vector3 pos)
+        {
+            //TODO:扔东西的效果
+            var item = Instantiate(itemPrefab, pos, Quaternion.identity, itemParent);
+            item.itemID = ID;
+        }
+
         /// <summary>
         /// 獲取當前場景的所有Item
         /// </summary>

@@ -21,7 +21,7 @@ MonoBehaviour:
     itemDescription: "\u4E00\u628A\u780D\u6811\u7528\u7684\u65A7\u5934"
     itemUseRadius: 1
     canPickedup: 1
-    canDropped: 0
+    canDropped: 1
     canCarried: 0
     itemPrice: 0
     sellPercentage: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     itemDescription: "\u4E00\u628A\u8015\u7A2E\u7528\u7684\u92E4\u982D"
     itemUseRadius: 1
     canPickedup: 1
-    canDropped: 0
+    canDropped: 1
     canCarried: 0
     itemPrice: 0
     sellPercentage: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
     itemDescription: "\u4E00\u628A\u91C7\u7926\u7528\u7684\u93AC\u5B50"
     itemUseRadius: 1
     canPickedup: 1
-    canDropped: 0
+    canDropped: 1
     canCarried: 0
     itemPrice: 0
     sellPercentage: 0
@@ -57,7 +57,7 @@ MonoBehaviour:
     itemDescription: "\u4E00\u628A\u5272\u8349\u7528\u7684\u942E\u5200"
     itemUseRadius: 1
     canPickedup: 1
-    canDropped: 0
+    canDropped: 1
     canCarried: 0
     itemPrice: 0
     sellPercentage: 0

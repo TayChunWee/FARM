@@ -37,7 +37,7 @@ namespace Farm.Inventory
         private void Start()
         {
             isSelected = false;
-            if(itemDetails.itemID == 0)
+            if(itemDetails == null)
             {
                 UpdateEmptySlot();
             }
@@ -66,21 +66,24 @@ namespace Farm.Inventory
             if (isSelected)
             {
                 isSelected = false;
-            }
 
+                inventoryUI.UpdateSlotHighlight(-1);
+                EventHandler.CallItemSelectedEvent(itemDetails, isSelected);
+            }
+            itemDetails = null;
             slotImage.enabled = false;
             amountText.text = string.Empty;
             button.interactable = false;
 
             //自行修復（無根據視頻可能之後需要更改），原因是因爲他的itemAmount沒有等於0，并且沒有清除乾净數據
-            itemAmount = 0;
-            itemDetails = new ItemDetails();
+            //itemAmount = 0;
+            //itemDetails = new ItemDetails();
 
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (itemAmount == 0) return;
+            if (itemDetails == null) return;
             isSelected = !isSelected;
 
             inventoryUI.UpdateSlotHighlight(slotIndex);
