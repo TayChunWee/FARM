@@ -199,6 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332204e3564201b41b67bc383dbb39c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  digTile: {fileID: 11400000, guid: 949cea44045382441983a3b6d60b2c5c, type: 2}
+  waterTile: {fileID: 11400000, guid: 5a29a4f0954b97c489e23ccff7c3812a, type: 2}
   mapDataList:
   - {fileID: 11400000, guid: 312cad0abbbb50e41bd3b794048b0346, type: 2}
 --- !u!1 &494806992
@@ -1477,6 +1479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 8634538266692684317, guid: bd4db04ce7d62c84da2d6335e091b8d8, type: 3}
+  bounceItemPrefab: {fileID: 4063338650698072602, guid: 35356d9b6d304034a90f9d30085f7944, type: 3}
 --- !u!1 &2117076350
 GameObject:
   m_ObjectHideFlags: 0

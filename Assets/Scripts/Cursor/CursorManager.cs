@@ -181,6 +181,12 @@ public class CursorManager : MonoBehaviour
                 case ItemType.Commodity:
                     if (currentTile.canDropItem && currentItem.canDropped) SetCursorValid(); else SetCursorInvalid();
                     break;
+                case ItemType.HoeTool:
+                    if (currentTile.canDig) SetCursorValid(); else SetCursorInvalid();
+                    break;
+                case ItemType.WaterTool:
+                    if (currentTile.daysSinceDug >-1 && currentTile.daysSinceWatered == -1) SetCursorValid(); else SetCursorInvalid();
+                    break;
             }
         }
         else

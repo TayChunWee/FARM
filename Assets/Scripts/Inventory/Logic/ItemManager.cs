@@ -8,8 +8,11 @@ namespace Farm.Inventory
     public class ItemManager : MonoBehaviour
     {
         public Item itemPrefab;
+        public Item bounceItemPrefab;
 
         private Transform itemParent;
+
+        private Transform PlayerTransform=> FindObjectOfType<Player>().transform;
 
         //記錄場景Item
         private Dictionary<string, List<SceneItem>> sceneItemDict = new Dictionary<string, List<SceneItem>>();
@@ -53,11 +56,12 @@ namespace Farm.Inventory
             item.itemID = ID;
         }
 
-        private void OnDropItemEvent(int ID, Vector3 pos)
+        private void OnDropItemEvent(int ID, Vector3 mousePos)
         {
-            //TODO:扔东西的效果
-            var item = Instantiate(itemPrefab, pos, Quaternion.identity, itemParent);
+            var item = Instantiate(bounceItemPrefab, PlayerTransform.position, Quaternion.identity, itemParent);
             item.itemID = ID;
+            var dir = (mousePos - PlayerTransform.position).normalized;
+            item.GetComponent<ItemBounce>().InitBounceItem(mousePos, dir);
         }
 
         /// <summary>

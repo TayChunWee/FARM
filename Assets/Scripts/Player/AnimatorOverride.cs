@@ -47,6 +47,7 @@ public class AnimatorOverride : MonoBehaviour
         {
             ItemType.Seed       => PartType.Carry,
             ItemType.Commodity  => PartType.Carry,
+            //ItemType.HoeTool    => PartType.Carry,
             _                   =>PartType.None
         };
 
