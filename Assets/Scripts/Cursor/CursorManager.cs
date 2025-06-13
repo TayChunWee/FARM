@@ -51,13 +51,14 @@ public class CursorManager : MonoBehaviour
 
     private void Start()
     {
-        cursorCanvas = GameObject.FindGameObjectWithTag("CursorCanvas").GetComponent<RectTransform>();
-        cursorImage = GameObject.Find("Cursor Image").GetComponent<Image>();
-
-        currentSprite = normal;
-        SetCursorImage(normal);
-
-        mainCamera = Camera.main;
+        //先注釋掉因爲在build中順序不對
+        //cursorCanvas = GameObject.FindGameObjectWithTag("CursorCanvas").GetComponent<RectTransform>();
+        //cursorImage = GameObject.Find("Cursor Image").GetComponent<Image>();
+        //
+        //currentSprite = normal;
+        //SetCursorImage(normal);
+        //
+        //mainCamera = Camera.main;
     }
 
     private void Update()
@@ -94,6 +95,21 @@ public class CursorManager : MonoBehaviour
         cursorEnable = false;
     }
 
+    //先注釋掉因爲在build中順序不對，改成使用下面的
+    //private void OnAfterSceneLoadedEvent()
+    //{
+    //    currentGrid = FindObjectOfType<Grid>();
+    //    cursorCanvas = GameObject.FindGameObjectWithTag("CursorCanvas")?.GetComponent<RectTransform>();
+    //    if (cursorCanvas != null)
+    //    {
+    //        cursorImage = cursorCanvas.GetComponentInChildren<Image>();
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("CursorCanvas not found after scene load!");
+    //    }
+    //
+    //}
     private void OnAfterSceneLoadedEvent()
     {
         currentGrid = FindObjectOfType<Grid>();
@@ -101,14 +117,19 @@ public class CursorManager : MonoBehaviour
         if (cursorCanvas != null)
         {
             cursorImage = cursorCanvas.GetComponentInChildren<Image>();
+            if (cursorImage == null) Debug.LogError("Cursor Image not found in CursorCanvas!");
         }
         else
         {
-            Debug.LogWarning("CursorCanvas not found after scene load!");
+            Debug.LogError("CursorCanvas not found after scene load!");
         }
 
-    }
+        currentSprite = normal;
+        SetCursorImage(normal);
 
+        mainCamera = Camera.main;
+        if (mainCamera == null) Debug.LogError("Main Camera not found!");
+    }
     #region 设置鼠标样式
     /// <summary>
     /// 設置鼠標圖片
