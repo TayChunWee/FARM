@@ -40,7 +40,7 @@ public class ItemToolTip : MonoBehaviour
         else
         {
             bottomPart.SetActive(true); // 仍然显示底部
-            valueText.text = "不可出售"; // 或者使用英文 "Not Sellable"
+            valueText.text = "販売不可"; // 或者使用英文 "Not Sellable"
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
@@ -50,15 +50,15 @@ public class ItemToolTip : MonoBehaviour
     {
         return itemType switch
         {
-            ItemType.Seed => "种子",
+            ItemType.Seed => "種",
             ItemType.Commodity => "商品",
             ItemType.Furniture => "家具",
-            ItemType.BreakTool => "工具",
-            ItemType.ChopTool => "工具",
-            ItemType.CollectTool => "工具",
-            ItemType.HoeTool => "工具",
-            ItemType.ReapTool => "工具",
-            ItemType.WaterTool => "工具",
+            ItemType.BreakTool => "ツール",
+            ItemType.ChopTool => "ツール",
+            ItemType.CollectTool => "ツール",
+            ItemType.HoeTool => "ツール",
+            ItemType.ReapTool => "ツール",
+            ItemType.WaterTool => "ツール",
             _=>"无"
         };
     }

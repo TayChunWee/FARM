@@ -10,7 +10,7 @@ public class Settings
     public const float targetAlpha = 0.1f;
 
     //时间相关
-    public const float secondThreshold = 0.1f;  //數值越小時間越快
+    public const float secondThreshold = 0.01f;  //數值越小時間越快
 
     public const int secondHold = 59;
 

@@ -27,6 +27,10 @@ namespace Farm.Transition
 
         private IEnumerator Start()
         {
+            if (!SceneManager.GetSceneByName("UI").isLoaded)
+            {
+                yield return SceneManager.LoadSceneAsync("UI", LoadSceneMode.Additive);
+            }
             fadeCanvasGroup = FindObjectOfType<CanvasGroup>();
             yield return LoadSceneSetActive(startSceneName);
             EventHandler.CallAfterSceneLoadedEvent();
@@ -122,6 +126,8 @@ namespace Farm.Transition
             fadeCanvasGroup.blocksRaycasts = false;
 
             isFade = false;
+            Debug.Log("Fade to alpha: " + targetAlpha + " | CanvasGroup: " + fadeCanvasGroup);
+
         }
     }
 }

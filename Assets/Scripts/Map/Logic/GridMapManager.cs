@@ -49,8 +49,13 @@ namespace Farm.Map
         private void OnAfterSceneLoadedEvent()
         {
             currentGrid = FindObjectOfType<Grid>();
-            digTilemap = GameObject.FindWithTag("Dig").GetComponent<Tilemap>();
-            waterTilemap = GameObject.FindWithTag("Water").GetComponent<Tilemap>();
+            GameObject digObj = GameObject.FindWithTag("Dig");
+            if (digObj != null)
+                digTilemap = digObj.GetComponent<Tilemap>();
+
+            GameObject waterObj = GameObject.FindWithTag("Water");
+            if (waterObj != null)
+                waterTilemap = waterObj.GetComponent<Tilemap>();
         }
 
         private void InitTileDetailsDict(MapData_SO mapData)

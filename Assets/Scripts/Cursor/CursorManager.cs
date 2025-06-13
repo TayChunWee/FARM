@@ -52,7 +52,7 @@ public class CursorManager : MonoBehaviour
     private void Start()
     {
         cursorCanvas = GameObject.FindGameObjectWithTag("CursorCanvas").GetComponent<RectTransform>();
-        cursorImage = cursorCanvas.GetChild(0).GetComponent<Image>();
+        cursorImage = GameObject.Find("Cursor Image").GetComponent<Image>();
 
         currentSprite = normal;
         SetCursorImage(normal);
@@ -97,6 +97,16 @@ public class CursorManager : MonoBehaviour
     private void OnAfterSceneLoadedEvent()
     {
         currentGrid = FindObjectOfType<Grid>();
+        cursorCanvas = GameObject.FindGameObjectWithTag("CursorCanvas")?.GetComponent<RectTransform>();
+        if (cursorCanvas != null)
+        {
+            cursorImage = cursorCanvas.GetComponentInChildren<Image>();
+        }
+        else
+        {
+            Debug.LogWarning("CursorCanvas not found after scene load!");
+        }
+
     }
 
     #region 设置鼠标样式
