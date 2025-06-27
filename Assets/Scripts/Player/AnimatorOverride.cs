@@ -47,8 +47,10 @@ public class AnimatorOverride : MonoBehaviour
         {
             ItemType.Seed       => PartType.Carry,
             ItemType.Commodity  => PartType.Carry,
-            //ItemType.HoeTool    => PartType.Carry,
-            _                   =>PartType.None
+            ItemType.HoeTool    => PartType.Hoe,
+            ItemType.WaterTool  => PartType.Water,
+            ItemType.CollectTool => PartType.Collect,
+            _                   => PartType.None
         };
 
         if(isSelected==false)
@@ -62,6 +64,10 @@ public class AnimatorOverride : MonoBehaviour
             {
                 holdItem.sprite = itemDetails.itemOnWorldSprite;
                 holdItem.enabled = true;
+            }
+            else
+            {
+                holdItem.enabled = false;
             }
         }
 
